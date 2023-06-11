@@ -5,10 +5,15 @@ const movieSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  genre: [String],
+  genre: {
+   type: [String],
+   default : [""]
+  } ,
   releaseYear: Number,
-  directors: [String],
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  directors: {
+   type: [String],
+   default:[""]
+  } ,
 });
 
 const Movie = mongoose.model("Movie", movieSchema);

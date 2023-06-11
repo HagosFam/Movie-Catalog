@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="col-md-6">
+      <h1>Edit Movie</h1>
+    </div>
+    <br>
+      <div class="row">
+        <div class="col-md-6">
+          <form>
+            <div class="form-group">
+              <label for="firstName">Game Name</label>
+              <input type="text" class="form-control" [(ngModel)]="movie.name" name="name" placeholder="Enter Game Name">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Release Year</label>
+              <input type="text" class="form-control" [(ngModel)]="movie.releaseYear"   name="releaseYear" placeholder="Enter Release year">
+            </div>
+  <br>
+            <button (click)="updateMovie()" class="btn btn-warning">Update Movie</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    

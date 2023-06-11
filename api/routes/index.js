@@ -9,6 +9,7 @@ router
 
 router
   .route("/movies/:id")
+  .get(controllers.getOne)
   .delete(controllers.deleteMovie)
   .put(controllers.updateMovie);
 

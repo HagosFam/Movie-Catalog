@@ -2,33 +2,49 @@ const Movie = require("../model/movie");
 const Review = require("../model/review");
 
 const createMovie = function (req, res) {
-  console.log("request", req.body)
+  console.log("request", req.body);
   // Validate request
   if (!req.body) {
     return res.status(400).send({
       message: "Movie content can not be empty",
-    })
+    });
   }
 
   // Create
   const movie = new Movie({
-    name: req.body.name || "Untitled Movie",
+    name: req.body._name || "Untitled Movie",
     genre: req.body.genre,
-    releaseYear: req.body.releaseYear,
+    releaseYear: req.body._releaseYear,
     directors: req.body.directors,
-    review: req.body.review,
   });
 
-movie
-  .save()
-  .then((data) => {
-    res.send(data);
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: err.message || "Some error occurred while creating the Movie.",
+  movie
+    .save()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the Movie.",
+      });
     });
-  });
+};
+
+const getOne = function (req, res) {
+  console.log("get one api get called");
+  movieId = req.params.id;
+  Movie.findById(movieId)
+    .then((foundMovie) => {
+      if (foundMovie) {
+        res.status(200).send(foundMovie);
+      } else {
+        res.status(401).send("Movie not found");
+      }
+    })
+    .catch((error) => {
+      res.status(500).send("Internal server error");
+    })
+    .finally(() => {});
 };
 
 const listMovies = function (req, res) {
@@ -54,7 +70,6 @@ const listMovies = function (req, res) {
       res.status(500).send("Error listing movies");
     });
 };
-  
 
 const deleteMovie = function (req, res) {
   const movieId = req.params.id;
@@ -84,8 +99,10 @@ const updateMovie = function (req, res) {
     .then((updatedMovie) => {
       if (!updatedMovie) {
         return res.status(404).send("Movie not found");
-      }
+      } else {
+        console.log("movie updated", updatedMovie);
       res.status(200).json(updatedMovie);
+      }
     })
     .catch((err) => {
       console.error(err);
@@ -188,10 +205,9 @@ const updateMovieReview = function (req, res) {
     });
 };
 
-  
-
 module.exports = {
   createMovie,
+  getOne,
   listMovies,
   deleteMovie,
   updateMovie,
