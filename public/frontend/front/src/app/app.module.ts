@@ -16,6 +16,9 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MoviesComponent } from './movies/movies.component';
+import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
+import { EditReviewComponent } from './edit-review/edit-review.component';
+import { CreateReviewComponent } from './create-review/create-review.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { MoviesComponent } from './movies/movies.component';
     RegisterComponent,
     EditGameComponent,
     MoviesComponent,
+    ManageReviewsComponent,
+    EditReviewComponent,
+    CreateReviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +66,18 @@ import { MoviesComponent } from './movies/movies.component';
       {
         path: 'login',
         component: LoginComponent,
+      },
+      {
+        path :"manageReview/:id",
+        component: ManageReviewsComponent
+      },
+      {
+        path :"createReview/:id",
+        component: CreateReviewComponent
+      },
+      {
+        path :"editReview/:id",
+        component: EditReviewComponent
       },
     ]),
   ],

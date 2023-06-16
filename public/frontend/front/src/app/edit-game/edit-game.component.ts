@@ -43,10 +43,9 @@ export class EditGameComponent implements OnInit {
   }
 
   updateMovie() {
-    let movie:Movie = new Movie("",[""], 2014, [""]);
-    movie.name = this.movie.name
-    movie.releaseYear = this.movie.releaseYear
-    this._gameService.updateMovie(movie, this.id).subscribe({
+    console.log("We are sending this data", this.movie);
+    
+    this._gameService.updateMovie(this.movie, this.id).subscribe({
          next: (res)=>{
            console.log("Movie updated", res);
          },

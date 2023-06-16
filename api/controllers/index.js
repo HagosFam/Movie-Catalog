@@ -3,11 +3,16 @@ const Review = require("../model/review");
 
 const createMovie = function (req, res) {
   console.log("request", req.body);
+
+  const response = {
+    status: 200,
+    message: {},
+  };
+
   // Validate request
   if (!req.body) {
-    return res.status(400).send({
-      message: "Movie content can not be empty",
-    });
+    (response.status = 400),
+      (response.message = "Request body cannot be empty");
   }
 
   // Create
@@ -16,17 +21,26 @@ const createMovie = function (req, res) {
     genre: req.body.genre,
     releaseYear: req.body._releaseYear,
     directors: req.body.directors,
+    reviews: req.body.reviews
   });
 
   movie
     .save()
     .then((data) => {
-      res.send(data);
+      console.log("Arrived here in the 200");
+      if (data) {
+        (response.status = 200), (response.message = "Created" + data);
+      } else {
+        (response.status = 404), (response.message = "Not Created");
+      }
     })
     .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating the Movie.",
-      });
+      console.log("Its here", err);
+      (response.status = 500),
+        (response.message = "Internal server error:" + err);
+    })
+    .finally(() => {
+      res.status(response.status).json(response.message);
     });
 };
 
@@ -49,7 +63,7 @@ const getOne = function (req, res) {
 
 const listMovies = function (req, res) {
   let offset = 0;
-  let count = 5;
+  let count = 0;
 
   if (req.query && req.query.offset) {
     offset = parseInt(req.query.offset, 10);
@@ -72,6 +86,7 @@ const listMovies = function (req, res) {
 };
 
 const deleteMovie = function (req, res) {
+ console.log("arrived on the delete here")
   const movieId = req.params.id;
 
   Movie.findByIdAndRemove(movieId)
@@ -89,25 +104,25 @@ const deleteMovie = function (req, res) {
 
 const updateMovie = function (req, res) {
   const movieId = req.params.id;
-  const { name, genre, releaseYear, directors, reviews } = req.body;
-
-  Movie.findByIdAndUpdate(
-    movieId,
-    { name, genre, releaseYear, directors, reviews },
-    { new: true }
-  )
-    .then((updatedMovie) => {
-      if (!updatedMovie) {
-        return res.status(404).send("Movie not found");
-      } else {
-        console.log("movie updated", updatedMovie);
-      res.status(200).json(updatedMovie);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error updating movie");
-    });
+  const updateData = {};
+  (updateData.name = req.body.name),
+    (updateData.genre = req.body.genre),
+    (updateData.releaseYear = req.body.releaseYear),
+    (updateData.directors = req.body.directors),
+    (updateData.reviews = req.body.reviews),
+    Movie.findByIdAndUpdate(movieId, updateData, { new: true })
+      .then((updatedMovie) => {
+        if (!updatedMovie) {
+          return res.status(404).send("Movie not found");
+        } else {
+          console.log("movie updated", updatedMovie);
+          res.status(200).json(updatedMovie);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error updating movie");
+      });
 };
 
 const createMovieReview = function (req, res) {

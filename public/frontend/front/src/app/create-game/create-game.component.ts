@@ -14,12 +14,11 @@ export class CreateGameComponent {
     releaseYear: new FormControl()
   });
   response:any=""
-
   constructor(private _movieService:MoviesDataService) {
   }
 
   createGame() {
-    let movie:Movie = new Movie("",[""], 2014, [""]);
+    let movie:Movie = new Movie("",[""], 2014, [""], []);
     movie.name = this.gameForm.value.gameName;
     movie.releaseYear = this.gameForm.value.releaseYear;
    console.log("Movie", movie);

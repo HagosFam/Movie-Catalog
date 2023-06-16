@@ -6,6 +6,7 @@
       <tr>
         <th>Game Name</th>
         <th>Release Year</th>
+        <th>Manage Reviews</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -14,6 +15,7 @@
       <tr *ngFor="let movie of movies"> 
         <td> {{movie.name}}</td>
         <td> {{movie.releaseYear}}</td>
+        <td> <button (click)="manageReview(movie._id)" class="btn btn-warning">Manage Reviews</button></td>
         <td> <button (click)="editMovie(movie._id)" class="btn btn-warning">Edit</button></td>
         <td> <button (click)="deleteMovie(movie._id)" class="btn btn-danger">Delete</button></td>
        <tr>

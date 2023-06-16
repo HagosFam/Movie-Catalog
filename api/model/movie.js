@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Review = require("./review");
 
 const movieSchema = mongoose.Schema({
   name: {
@@ -6,14 +7,18 @@ const movieSchema = mongoose.Schema({
     required: true,
   },
   genre: {
-   type: [String],
-   default : [""]
-  } ,
+    type: [String],
+    default: [""],
+  },
   releaseYear: Number,
   directors: {
-   type: [String],
-   default:[""]
-  } ,
+    type: [String],
+    default: [""],
+  },
+  reviews: {
+    type: [Review],
+    default:[]
+  },
 });
 
 const Movie = mongoose.model("Movie", movieSchema);

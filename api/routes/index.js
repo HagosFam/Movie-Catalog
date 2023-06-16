@@ -1,4 +1,7 @@
+const movieRoutes = require("./movie-route")
 const router = require("express").Router();
+const reviewRoutes =require("./review-route")
+const express = require("express");
 const controllers = require("../controllers");
 
 // Movies routes
@@ -13,15 +16,18 @@ router
   .delete(controllers.deleteMovie)
   .put(controllers.updateMovie);
 
-// Movie reviews routes
-router
-  .route(`/movies/:movieId/reviews`)
-  .post(controllers.createMovieReview)
+
+  router
+  .route("/movies/:id/review")                            // if we want to limit the access 
+  .post(controllers.createMovieReview) // .post(authConroller.authenticate, controllers.createMovieReview )
   .get(controllers.listMovieReview);
 
 router
-  .route(`/movies/:movieId/reviews/:reviewId`)
+  .route("/movies/:id/review/:id")
   .delete(controllers.deleteMovieReview)
   .put(controllers.updateMovieReview);
 
-module.exports = router;
+
+
+
+  module.exports = router

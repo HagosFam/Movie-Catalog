@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const movieReviewSchema = mongoose.Schema({
+const Review = mongoose.Schema({
   review: String,
   rating: Number,
   postedDate: {
@@ -9,5 +9,4 @@ const movieReviewSchema = mongoose.Schema({
   },
 });
 
-const Review  = mongoose.model("Review", movieReviewSchema);
 module.exports = Review

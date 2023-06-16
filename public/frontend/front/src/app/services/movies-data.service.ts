@@ -32,9 +32,13 @@ deleteMovie(id:string):Observable<Movie> {
 }
 
 updateMovie(movie:Movie, id:string):Observable<Movie> {
+  console.log("I am sending this movie,", movie);
+  
   const url = `${this.baseUrl}${id}`;
-  return this._http.put<Movie>(url, movie);
+  return this._http.put<Movie>(url, JSON.stringify(movie));
 }
+
+// review related routes 
 
 
 }

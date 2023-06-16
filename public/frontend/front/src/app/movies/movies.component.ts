@@ -35,6 +35,10 @@ export class MoviesComponent {
     this.router.navigate(["/editMovie", id]);
   }
 
+  manageReview(id:string) {
+    this.router.navigate(["/manageReview", id])
+  }
+
   deleteMovie(id:string) {
   this._movieService.deleteMovie(id).subscribe({
     next:(res)=>{
