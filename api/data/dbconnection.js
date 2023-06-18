@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
-
+require("dotenv").config();
 require("../model/movie");
 require("../model/review");
-mongoose.connect("mongodb://127.0.0.1:27017/movieCatalog");
+require("../model/user-model")
+
+
+mongoose.connect(process.env.DB_URL);
 
 const callbackify = require("util").callbackify;
 

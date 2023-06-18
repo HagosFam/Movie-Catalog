@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MoviesDataService } from '../services/movies-data.service';
 import { Movie } from '../models/movie';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -18,7 +18,7 @@ export class EditGameComponent implements OnInit {
   id!:any;
   movie!:Movie;
 
-  constructor(private route:ActivatedRoute, private _gameService:MoviesDataService) {
+  constructor(private route:ActivatedRoute, private _gameService:MoviesDataService, private router:Router) {
   }
 
 
@@ -48,6 +48,7 @@ export class EditGameComponent implements OnInit {
     this._gameService.updateMovie(this.movie, this.id).subscribe({
          next: (res)=>{
            console.log("Movie updated", res);
+           this.router.navigate(["/movies"])
          },
          error: (err)=>{
           console.log("Error thrown", err);       
