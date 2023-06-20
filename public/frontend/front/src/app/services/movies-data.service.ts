@@ -35,8 +35,6 @@ export class MoviesDataService {
   }
 
   updateMovie(movie: Movie, id: string): Observable<Movie> {
-    console.log('I am sending this movie,', movie);
-
     const url = `${this.movieBaseUrl}${id}`;
     return this._http.put<Movie>(url, JSON.stringify(movie));
   }

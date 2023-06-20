@@ -78,7 +78,7 @@ const login = function signin(req, res) {
         const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
           expiresIn: '1h', // Token expires in 1 hour
         });
-        return res.status(200).json({token});
+        return res.status(200).json({"token":token, "user": user});
       });
     })
     .catch((error) => {

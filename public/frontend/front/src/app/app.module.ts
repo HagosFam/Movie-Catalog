@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,7 @@ import { MoviesComponent } from './movies/movies.component';
 import { ManageReviewsComponent } from './manage-reviews/manage-reviews.component';
 import { EditReviewComponent } from './edit-review/edit-review.component';
 import { CreateReviewComponent } from './create-review/create-review.component';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,13 @@ import { CreateReviewComponent } from './create-review/create-review.component';
       },
     ]),
   ],
-  providers: [],
+  providers: [
+    {
+     provide:HTTP_INTERCEPTORS,
+     useClass:AuthInterceptor,
+     multi:true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

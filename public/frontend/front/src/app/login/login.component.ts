@@ -5,6 +5,8 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Token } from '../models/Token';
 import { User } from '../models/user';
+import { Route, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +15,14 @@ import { User } from '../models/user';
 })
 export class LoginComponent implements OnInit {
   login!: Login;
-  token!:string;
-  user!:User
+  user!: User;
 
-  constructor(private _userService: UserService, private _authService:AuthService) {}
+  constructor(
+    private _userService: UserService,
+    private _authService: AuthService,
+    private _router: Router,
+    private _location: Location
+  ) {}
 
   loginForm = new FormGroup({
     username: new FormControl(),
@@ -31,11 +37,15 @@ export class LoginComponent implements OnInit {
     this.login.password = this.loginForm.value.password;
     console.log('login', this.login);
     this._userService.login(this.login).subscribe({
-      next: (res) => {
-        let result:string = res
-        console.log("Returned after login", result)
-      //  console.log("Returned after login", res.user.username)
-        this._authService.setToken(result);         
+      next: (res: any) => {
+      
+        let jsonResponse = res;
+        let response = jsonResponse.token;
+        console.log("The returned value", jsonResponse.user.username)
+        this._authService.setToken(response);
+        this._router.navigate(['/movies']).then(()=>{
+          window.location.reload();
+        })
       },
       error: (error) => {
         console.log('Error happened', error);
