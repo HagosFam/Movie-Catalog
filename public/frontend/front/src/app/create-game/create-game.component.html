@@ -4,6 +4,12 @@
   </div>
   <br>
     <div class="row">
+      <div *ngIf="message!=null" style="background-color: green; color: wheat;">
+        <p>
+          {{message}}
+          <button routerLink="/movies" class="btn btn-primary">Go to list</button>
+        </p>
+      </div>
       <div class="col-md-6">
         <form [formGroup]="gameForm" (ngSubmit)="createGame()">
           <div class="form-group">

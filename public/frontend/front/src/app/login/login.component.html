@@ -1,11 +1,17 @@
 <div class="container">
   <h2>Login Form</h2>
+
   <div class="col-md-6">
+    <div style="background-color:brown; color: white;" *ngIf="errorMessage != null">
+      <p>
+        {{ errorMessage }}
+      </p>
+    </div>
     <form [formGroup]="loginForm" (ngSubmit)="signin()">
       <div class="form-group">
         <label for="username">Username:</label>
         <input
-        formControlName="username"
+          formControlName="username"
           type="text"
           class="form-control"
           id="username"
@@ -15,7 +21,7 @@
       <div class="form-group">
         <label for="password">Password:</label>
         <input
-        formControlName="password"
+          formControlName="password"
           type="password"
           class="form-control"
           id="password"

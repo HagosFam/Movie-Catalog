@@ -1,6 +1,76 @@
 const Movie = require("../model/movie");
 const Review = require("../model/review");
 
+
+const listMovieReview = function (req, res) {
+  console.log("list movie review listed", req.params.id);
+  movieId = req.params.id;
+  console.log("Data here", req.body)
+
+  Movie.findById(movieId)
+    .then((movie) => {
+      if (!movie) {
+        return res.status(404).send("Movie not found");
+      }
+
+      const reviews = movie.reviews;
+      res.status(200).json(reviews);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error finding movie");
+    });
+};
+
+const deleteMovieReview = function (req, res) {
+  const movieId = req.params.movieId;
+  const reviewId = req.params.reviewId;
+
+  Movie.findById(movieId)
+    .then((movie) => {
+      if (!movie) {
+        return res.status(404).send("Movie not found");
+      }
+
+      movie.reviews.pull(reviewId);
+
+      return movie.save();
+    })
+    .then((updatedMovie) => {
+      res.status(200).json(updatedMovie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error deleting movie review");
+    });
+};
+
+const updateMovieReview = function (req, res) {
+  const movieId = req.params.movieId;
+  const reviewId = req.params.reviewId;
+  const { review, rating, postedDate } = req.body;
+
+  Movie.findById(movieId)
+    .then((movie) => {
+      if (!movie) {
+        return res.status(404).send("Movie not found");
+      }
+      const movieReview = movie.reviews.id(reviewId);
+      movieReview.review = review;
+      movieReview.rating = rating;
+      movieReview.postedDate = postedDate;
+
+      return movie.save();
+    })
+    .then((updatedMovie) => {
+      res.status(200).json(updatedMovie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error updating movie review");
+    });
+};
+
 const createMovie = function (req, res) {
   console.log("request", req.body);
 
@@ -45,7 +115,7 @@ const createMovie = function (req, res) {
 };
 
 const getOne = function (req, res) {
-  console.log("get one api get called");
+  console.log("get one api get called", req.params.id);
   movieId = req.params.id;
   Movie.findById(movieId)
     .then((foundMovie) => {
@@ -127,6 +197,7 @@ const updateMovie = function (req, res) {
 
 const createMovieReview = function (req, res) {
   const { movieId, review, rating, postedDate } = req.body;
+  console.log("body", req.body)
 
   const movieReview = new Review({
     review,
@@ -153,72 +224,7 @@ const createMovieReview = function (req, res) {
     });
 };
 
-const listMovieReview = function (req, res) {
-  const movieId = req.params.movieId;
 
-  Movie.findById(movieId)
-    .then((movie) => {
-      if (!movie) {
-        return res.status(404).send("Movie not found");
-      }
-
-      const reviews = movie.reviews;
-      res.status(200).json(reviews);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error finding movie");
-    });
-};
-
-const deleteMovieReview = function (req, res) {
-  const movieId = req.params.movieId;
-  const reviewId = req.params.reviewId;
-
-  Movie.findById(movieId)
-    .then((movie) => {
-      if (!movie) {
-        return res.status(404).send("Movie not found");
-      }
-
-      movie.reviews.pull(reviewId);
-
-      return movie.save();
-    })
-    .then((updatedMovie) => {
-      res.status(200).json(updatedMovie);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error deleting movie review");
-    });
-};
-
-const updateMovieReview = function (req, res) {
-  const movieId = req.params.movieId;
-  const reviewId = req.params.reviewId;
-  const { review, rating, postedDate } = req.body;
-
-  Movie.findById(movieId)
-    .then((movie) => {
-      if (!movie) {
-        return res.status(404).send("Movie not found");
-      }
-      const movieReview = movie.reviews.id(reviewId);
-      movieReview.review = review;
-      movieReview.rating = rating;
-      movieReview.postedDate = postedDate;
-
-      return movie.save();
-    })
-    .then((updatedMovie) => {
-      res.status(200).json(updatedMovie);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error updating movie review");
-    });
-};
 
 module.exports = {
   createMovie,

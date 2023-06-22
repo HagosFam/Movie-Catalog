@@ -5,6 +5,9 @@
     <br>
       <div class="row">
         <div class="col-md-6">
+          <div style="background-color: brown; color: white;" *ngIf="responseMessage !=null">
+            <p>{{responseMessage}}</p>
+          </div>
           <form>
             <div class="form-group">
               <label for="firstName">Game Name</label>

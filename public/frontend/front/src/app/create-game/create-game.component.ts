@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Movie } from '../models/movie';
 import { MoviesDataService } from '../services/movies-data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-game',
@@ -9,24 +10,25 @@ import { MoviesDataService } from '../services/movies-data.service';
   styleUrls: ['./create-game.component.css']
 })
 export class CreateGameComponent {
+  message!:string;
   gameForm = new FormGroup({
     gameName: new FormControl(),
     releaseYear: new FormControl()
   });
   response:any=""
-  constructor(private _movieService:MoviesDataService) {
+  constructor(private _movieService:MoviesDataService, private route:Router) {
   }
 
   createGame() {
     let movie:Movie = new Movie("",[""], 2014, [""], []);
     movie.name = this.gameForm.value.gameName;
     movie.releaseYear = this.gameForm.value.releaseYear;
-   console.log("Movie", movie);
    
     this._movieService.createMovie(movie).subscribe({
       next:(res)=>{
-        console.log("Movie created", res);
+        this.message = "Movie created!"
         this.response=res;
+      //  this.route.navigate(["/movies"])
       },
       error:(err)=>{
         console.log("Error happend", err);

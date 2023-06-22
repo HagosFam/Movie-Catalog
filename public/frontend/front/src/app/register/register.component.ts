@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   user!: User;
   token!: Token;
   response: any;
+  errorMessage!:string
 
   userForm = new FormGroup({
     username: new FormControl(),
@@ -30,12 +31,13 @@ export class RegisterComponent implements OnInit {
     this.user.password = this.userForm.value.password;
     console.log('Sending this', this.user);
     this.userService.register(this.user).subscribe({
-      next: (res) => {
-        console.log('Reponse token here', res);
+      next: (res:any) => {
+        console.log('Reponse here', res.message);
         this.response = res;
       },
       error: (error) => {
         console.log('Error here', error);
+        this.errorMessage = error.error.message;
       },
       complete: () => {},
     });

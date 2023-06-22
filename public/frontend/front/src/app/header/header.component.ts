@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -9,11 +10,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   token!: any;
+  loggedUser!:string;
 
-  constructor(private authService: AuthService, private route: Router) {}
+  constructor(private authService: AuthService, private route: Router, private _userService:UserService) {}
 
   ngOnInit(): void {
     this.token = this.authService.getToken();
+   this.loggedUser = this._userService.getLoggedUser;
+   console.log(this.loggedUser);
+   
   }
 
   logout() {

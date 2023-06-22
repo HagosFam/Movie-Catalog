@@ -19,6 +19,10 @@ export class MoviesDataService {
     return this._http.post<Movie>(_url, movie);
   }
 
+updateMovie(movie: Movie, id: string): Observable<Movie> {
+    const _url = `${this.movieBaseUrl}${id}`;
+    return this._http.put<Movie>(_url, movie.toJson());
+  }
   getMovies(): Observable<Movie[]> {
     const _url = this.movieBaseUrl;
     return this._http.get<Movie[]>(_url);
@@ -34,10 +38,7 @@ export class MoviesDataService {
     return this._http.delete<Movie>(url + id);
   }
 
-  updateMovie(movie: Movie, id: string): Observable<Movie> {
-    const url = `${this.movieBaseUrl}${id}`;
-    return this._http.put<Movie>(url, JSON.stringify(movie));
-  }
+  
 
   // review related services
 

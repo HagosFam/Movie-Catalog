@@ -33,7 +33,7 @@
           </li>
 
           <li *ngIf="token != null" class="nav-item">
-            <a class="nav-link" href="#">Welcome, You are logged in!</a>
+            <a class="nav-link" href="#">Welcome {{loggedUser}}, &nbsp; You are logged in!</a>
           </li>
           <button
             *ngIf="token != null"

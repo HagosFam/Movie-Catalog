@@ -49,12 +49,11 @@ export class ManageReviewsComponent implements OnInit {
 
   backToList() {
     console.log('Creating will be false now');
-
     this.creating = false;
   }
 
 
-  get name():string {
-    return "Nigus" // you can get it from service by creating setter function
-  }
+  // get name():string {
+  //   return "Nigus" // you can get it from service by creating setter function
+  // }
 }

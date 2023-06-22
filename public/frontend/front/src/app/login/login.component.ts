@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 export class LoginComponent implements OnInit {
   login!: Login;
   user!: User;
+  errorMessage!: string;
 
   constructor(
     private _userService: UserService,
@@ -38,10 +39,9 @@ export class LoginComponent implements OnInit {
     console.log('login', this.login);
     this._userService.login(this.login).subscribe({
       next: (res: any) => {
-      
         let jsonResponse = res;
         let response = jsonResponse.token;
-        console.log("The returned value", jsonResponse.user.username)
+        this._userService.setLoggedUser(jsonResponse.user.username);
         this._authService.setToken(response);
         this._router.navigate(['/movies']).then(()=>{
           window.location.reload();
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.log('Error happened', error);
+        this.errorMessage = 'Invalid user name or password';
       },
       complete: () => {},
     });
